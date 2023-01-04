@@ -1,0 +1,10 @@
+global_costmap:
+  global_frame: map
+  robot_base_frame: amiro7/base_link
+
+  transform_tolerance: 0.5    # default: 0.2  ... Tolerance for delays (in seconds) of tf data, stops if diff. is higher
+  update_frequency: 10.0      # default: 5.0  ... Freq. (in Hz) for map to be updated
+  publish_frequency: 10.0     # default: 0.0  ... Freq. (in Hz) for publishing display information
+  static_map: true            # default: true for global, false for local
+  #rolling_window:            # default: false
+  #... Additional parameters for the rolling window .. always_send_full_costmap, width, height, resolution, origin_x, origin_y

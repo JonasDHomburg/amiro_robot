@@ -1,4 +1,4 @@
-global_frame: amiro/odom
+global_frame: citrack/base_link #citrack/vicon #amiro/odom
 rolling_window: true
 
 plugins:

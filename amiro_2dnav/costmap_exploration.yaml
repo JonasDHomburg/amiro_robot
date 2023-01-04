@@ -1,5 +1,5 @@
 track_unknown_space: true
-global_frame: map
+global_frame: citrack/base_link #map
 rolling_window: false
 
 plugins:

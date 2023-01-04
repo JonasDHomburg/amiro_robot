@@ -1,0 +1,16 @@
+<launch>
+  <arg name="brush_size" default="50"/>
+  <arg name="background_color" default="0,0,0"/> <!-- black -->
+  <arg name="initial_display_size" default="1150,1150"/>
+  <arg name="resized_image_size" default="115,115" />
+  
+  <node pkg="amiro_2dnav_move_base" name="navigation_route" type="create_image.py" output="screen">
+    <param name="radius" value="$(arg brush_size)" type="int"/>
+    <param name="screen_color" value="$(arg background_color)" />
+    <param name="screen_size" value="$(arg initial_display_size)" />
+    <param name="image_size" value="$(arg resized_image_size)" />
+  </node>
+  <!-- <node pkg="amiro_2dnav_move_base" name="navigation_route_read" type="read_image.py" output="screen">
+    <param name="image_size" value="$(arg resized_image_size)" />
+  </node> -->
+</launch>

@@ -1,0 +1,26 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="cmd_vel_topic" default="amiro7/cmd_vel" />
+  <arg name="odom_topic" default="amiro7/odom" />
+  <arg name="map_image_navigation" default="false"/> <!-- Change in amiro_navigation-->
+
+  <!-- move_base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    <rosparam file="$(find amiro_2dnav_move_base)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find amiro_2dnav_move_base)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find amiro_2dnav_move_base)/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find amiro_2dnav_move_base)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find amiro_2dnav_move_base)/param/move_base_params.yaml" command="load" />
+    <rosparam file="$(find amiro_2dnav_move_base)/param/dwa_local_planner_params.yaml" command="load" />
+    <!-- <rosparam file="$(find amiro_2dnav_move_base)/param/base_local_planner_params.yaml" command="load" /> -->
+    <!-- <rosparam file="$(find amiro_2dnav_move_base)/param/trajectory_local_planner_params.yaml" command="load" /> -->
+    <param name="DWAPlannerROS/goal_distance_bias" value="0.1" if="$(arg map_image_navigation)" />
+    <param name="DWAPlannerROS/path_distance_bias" value="32" if="$(arg map_image_navigation)" />
+    <param name="DWAPlannerROS/occdist_scale" value="0.01" if="$(arg map_image_navigation)" />
+    <param name="DWAPlannerROS/max_scaling_factor" value="0.2" if="$(arg map_image_navigation)" />
+    <param name="DWAPlannerROS/stop_time_buffer" value="0.2" if="$(arg map_image_navigation)" />
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+  </node>
+</launch>

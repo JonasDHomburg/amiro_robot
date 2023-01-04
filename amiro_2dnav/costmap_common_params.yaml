@@ -1,4 +1,4 @@
-robot_base_frame:       amiro/base_link
+robot_base_frame:       os_lidar #prior: amiro/base_link
 robot_radius:           0.1
 
 update_frequency:       5.0

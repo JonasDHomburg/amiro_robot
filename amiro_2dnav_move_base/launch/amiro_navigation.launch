@@ -1,0 +1,73 @@
+<launch>
+  <!-- Arguments -->
+  <!-- <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/> -->
+  <arg name="map_file" default="$(find amiro_2dnav_move_base)/maps/map.yaml"/>
+  <arg name="open_rviz" default="false"/>
+  <arg name="move_forward_only" default="true"/>
+
+  <arg name="map_image_file" default="$(find amiro_2dnav_move_base)/maps/map_route.yaml"/>
+  <arg name="simple_navigation_goal" default="true"/>
+  <arg name="map_image_navigation" default = "false"/>
+
+  <!-- Turtlebot3 
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+    <arg name="model" value="$(arg model)" />
+  </include> -->
+
+  <!-- Pointcloud to Laserscan -->
+  <!-- <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+      <remap from="cloud_in" to="os_cloud_node/points"/>
+      <remap from="scan" to="amiro7/laserscan" />
+      <rosparam>
+        target_frame: os_lidar
+        transform_tolerance: 0.01
+        min_height: 0.0
+        max_height: 1.0
+        
+        angle_min: -179.912
+        angle_max: 179.912
+        angle_increment: 0.17578
+        scan_time: 0.1
+        range_min: 0.8
+        range_max: 120
+        use_inf: true
+        
+        concurrency_level: 1
+      </rosparam>
+  </node> -->
+
+  <!-- Map server -->
+  <node if="$(arg map_image_navigation)" pkg="map_server" name="map_server" type="map_server"  args="$(arg map_image_file)"/>
+  <node unless="$(arg map_image_navigation)" pkg="map_server" name="map_server" type="map_server"  args="$(arg map_file)"/>
+
+  <!-- AMCL 
+  <include file="$(find amiro_2dnav_move_base)/launch/amcl.launch"/> -->
+
+  <!-- rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find amiro_2dnav_move_base)/rviz/amiro_navigation.rviz"/>
+  </group>
+
+  <!-- remapping -->
+  <remap if="$(arg simple_navigation_goal)" from="move_base_simple/goal" to="stacked_move_base_simple/goal"/> 
+
+  <!-- move_base -->
+  <include file="$(find amiro_2dnav_move_base)/launch/move_base.launch">
+    <arg name="map_image_navigation" value="$(arg map_image_navigation)"/>
+  </include>
+
+  <!-- transforms -->
+  <node name="amiro_map_world_tf"
+      pkg="tf" type="static_transform_publisher" args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 citrack/base_link map 10"/>
+
+  <node name="amiro7_odom_to_base_link_tf" pkg="calibration" type="odom_to_tf">
+    <param name="ros_listener_odom_topic" value="/amiro7/odom"/> <!-- Values for odom required... /amiro7/odom ... Tested with 0.0 data ... 0.0 0.0 0.0 0.0 0.0 0.0-->
+    <param name="parent_frame" value="citrack/vicon"/>
+    <param name="child_frame" value="amiro7/base_link"/>
+    <param name="rostimenow" value="True"/>
+  </node>
+
+  <!-- <node name="amiro_vicon_odom_tf"
+    pkg="tf" type="static_transform_publisher" args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 citrack/vicon amiro7/base_link 50"/> -->
+</launch>

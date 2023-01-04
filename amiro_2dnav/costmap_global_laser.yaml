@@ -1,4 +1,4 @@
-global_frame: amiro/odom
+global_frame: citrack/base_link # prior: citrack/vicon #prior: amiro/odom
 rolling_window: true
 track_unknown_space: true
 

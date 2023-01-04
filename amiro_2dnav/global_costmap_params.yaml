@@ -1,4 +1,5 @@
-global_frame: map
+global_frame: citrack/base_link
+robot_base_frame: os_lidar
 rolling_window: false
 track_unknown_space: true
 

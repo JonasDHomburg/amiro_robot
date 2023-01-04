@@ -1,0 +1,26 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="stack_goals_first" default="false"/>
+  <arg name="number_of_goals" default="5"/>
+  <arg name="drive_circle" default="false"/>
+  <arg name="number_of_circles" default="3"/>
+  <arg name="radius_of_circles" default="1"/>
+  <arg name="samples_per_circle" default="16"/>
+  <arg name="clockwise_direction" default="true"/>
+  <arg name="threshold" default=".1"/>
+  <!-- <remap from="move_base_simple/goal" to="stacked_move_base_simple/goal"/> -->
+
+
+  <!-- Map server -->
+  <node pkg="amiro_2dnav_move_base" name="navigation_goals" type="goal_listener_callback" output="screen">
+    <param name="stack_goals_first" value="$(arg stack_goals_first)" type="bool" />
+    <param name="number_of_goals" value="$(arg number_of_goals)" type="int" />
+    <param name="drive_circle" value="$(arg drive_circle)" type="bool" />
+    <param name="number_circles" value="$(arg number_of_circles)" type="int" />
+    <param name="radius_of_circles" value="$(arg radius_of_circles)" type="double" />
+    <param name="samples_per_circle" value="$(arg samples_per_circle)" type="int" />
+    <param name="clockwise_direction" value="$(arg clockwise_direction)" type="bool" />
+    <param name="threshold" value="$(arg threshold)" type="double" />
+  </node>
+
+</launch>

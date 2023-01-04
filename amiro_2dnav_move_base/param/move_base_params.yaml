@@ -1,0 +1,15 @@
+#base_global_planner:               # default: navfn/NavfnROS
+#base_local_planner:                # default: base_local_planner/TrajectoryPlannerROS
+#recovery_behaviors:                # default: [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: rotate_recovery, type: rotate_recovery/RotateRecovery}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]
+
+controller_frequency: 10.0          # default: 20     ... Rate (in Hz) of Controller
+planner_patience: 5.0               # default: 5      ... Wait in seconds for valid plan before recovery is executed 
+controller_patience: 15.0           # default: 15     ... 
+conservative_reset_dist: 3.0        # default: 3      ... Clear obstacles from costmap father away than (in meters) for recovery behaviors.
+recovery_behavior_enabled: true     # default: true   ... Use recovery behaviors?
+#clearing_rotation_allowed: true    # default: true   ... In Place Rotation 
+shutdown_costmaps: false            # default: false  ... Shutdown costmaps when Move_base is in an inactive state
+oscillation_timeout: 10.0           # default: 0.0    ... Wait (in seconds) before rec. beh. if oscillating - 0.0 = inf timeout
+oscillation_distance: 0.2           # default: 0.5    ... Robot must move (in meters) to not be oscillating
+planner_frequency: 1.0              # default: 0.0    ... Rate (in Hz) of global Planner - 0.0 = global planner only runs when new goal or hindrance is detected
+#max_planning_retries: -1           # default: -1     ... Retries for planning before executing rec. beh. - -1.0 = inf. retries
